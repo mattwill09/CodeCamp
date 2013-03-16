@@ -1,0 +1,58 @@
+﻿@model KnockoutAppWithFSM.Models.Movie
+
+@section Scripts {
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+<div id="EditView" data-bind="with: Views['Edit']" style="display: none;">
+    <fieldset>
+        <legend>Movie</legend>
+
+        <div class="editor-label">
+            <label for="Title">Title</label>
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line" id="Title" name="Title" type="text" data-bind="value: Movie().Title">
+        </div>
+
+        <div class="editor-label">
+            <label for="ReleaseDate">Release Date</label>
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line" id="ReleaseDate" name="ReleaseDate" type="text" data-bind="value: Movie().ReleaseDate">
+            <!-- <input class="text-box single-line" id="ReleaseDate" name="ReleaseDate" type="text" data-bind="datepicker: Movie().ReleaseDate"> -->
+        </div>
+
+        <div class="editor-label">
+            <label for="Genre">Genre</label>
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line" id="Genre" name="Genre" type="text" data-bind="value: Movie().Genre">
+        </div>
+
+        <div class="editor-label">
+            <label for="Price">Price</label>
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line" id="Price" name="Price" type="text" data-bind="value: Movie().Price">
+        </div>
+
+        <div class="editor-label">
+            <label for="Rating">Rating</label>
+        </div>
+        <div class="editor-field">
+            <input class="text-box single-line" id="Rating" name="Rating" type="text" data-bind="value: Movie().Rating">
+        </div>
+
+        <p>
+            <button type="button" data-bind="click: Submit">Submit</button>
+        </p>
+    </fieldset>
+
+    <div>
+        <a data-bind="click: $root.Back">Back to List</a>
+    </div>
+
+</div>

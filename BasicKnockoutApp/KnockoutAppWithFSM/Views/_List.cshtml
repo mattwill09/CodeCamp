@@ -1,0 +1,53 @@
+﻿@model IEnumerable<KnockoutAppWithFSM.Models.Movie>
+
+<div id="HomeView" data-bind="with: Views['Home']" style="display: none;">
+    <p>
+        <a data-bind="click: $root.AddMovie">Create New</a>
+    </p>
+    <table>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rating)
+            </th>
+            <th></th>
+        </tr>
+
+        <tbody data-bind="foreach: Movies">
+            <tr>
+                <td>
+                    <span data-bind="text: Title"></span>
+                </td>
+                <td>
+                    <span data-bind="text: DisplayDate"></span>
+                </td>
+                <td>
+                    <span data-bind="text: Genre"></span>
+                </td>
+                <td>
+                    <span data-bind="text: Price"></span>
+                </td>
+                <td>
+                    <span data-bind="text: Rating"></span>
+                </td>
+                <td>
+                    <a data-bind="click: $root.EditMovie">Edit Me</a> |
+                <a data-bind="click: $root.ViewMovie">Details</a> |
+                <a data-bind="click: $root.DeleteMovie">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+
+    </table>
+</div>

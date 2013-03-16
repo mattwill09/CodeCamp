@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/knockout")
+    @Scripts.Render("~/bundles/fsm")
+    @Scripts.Render("~/bundles/MyCode")
+
+    <script type="text/javascript">
+        var ViewManagerInstance = null;
+        $().ready(function () {
+            ViewManagerInstance = new ViewManager();
+        });
+    </script>
+}
+
+<div id="content-area">
+    <div id="current-view">
+    </div>
+</div>
+@RenderPage("~/Views/_List.cshtml", null)
+@RenderPage("~/Views/_Edit.cshtml", null)
