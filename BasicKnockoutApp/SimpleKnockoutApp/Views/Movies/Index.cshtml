@@ -1,0 +1,136 @@
+﻿@model IEnumerable<SimpleKnockoutApp.Models.Movie>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/knockout")
+
+    <script type="text/javascript">
+
+        var m_names = new Array("January", "February", "March", 
+            "April", "May", "June", "July", "August", "September", 
+            "October", "November", "December");
+
+        var Movie = function () {
+            var self = this;
+
+            self.ID = ko.observable(null);
+            self.Title = ko.observable(null);
+            self.ReleaseDate = ko.observable(null);
+            self.Genre = ko.observable(null);
+            self.Price = ko.observable(null);
+            self.Rating = ko.observable(null);
+
+            self.DisplayDate = ko.computed({
+                read: function() {
+                    if (self.ReleaseDate() !== null) {
+                        var d = self.ReleaseDate();
+                        var curr_date = d.getDate();
+                        var curr_month = d.getMonth();
+                        var curr_year = d.getFullYear();
+                        return m_names[curr_month] + ' ' + curr_date + ", " + curr_year;
+                    } else {
+                        return '';
+                    }
+                },
+                write: function(value) {
+                    try {
+                        self.ReleaseDate(Date.parse(value));
+                    } catch (ex) {
+                        console.log(ex);
+                        self.ReleaseDate(null);
+                    }
+                }
+            });
+
+        };
+        var ViewModel = function () {
+            var self = this;
+
+            self.Movies = ko.observableArray([]);
+
+            self.AddMovie = function (ID, Title, ReleaseDate, Genre, Price, Rating) {
+                var movie = new Movie();
+                movie.ID(ID);
+                movie.Title(Title);
+                movie.ReleaseDate(ReleaseDate);
+                movie.Genre(Genre);
+                movie.Price(Price);
+                movie.Rating(Rating);
+
+                self.Movies.push(movie);
+            }
+
+            self.LoadData = function () {
+                var x = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+                for (var i = 0; i < x.length; i++) {
+                    self.AddMovie(x[i].ID, x[i].Title, new Date(x[i].ReleaseDate), x[i].Genre, x[i].Price, x[i].Rating);
+                }
+            };
+            self.EditURL = '@Url.Action("Edit")';
+            self.DetailsURL = '@Url.Action("Details")';
+            self.DeleteURL = '@Url.Action("Delete")';
+        }
+
+        var vm = new ViewModel();
+        vm.LoadData();
+        $().ready(function () {
+            ko.applyBindings(vm);
+        });
+    </script>
+
+}
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Genre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Rating)
+        </th>
+        <th></th>
+    </tr>
+
+    <tbody data-bind="foreach: Movies">
+        <tr>
+            <td>
+                <span data-bind="text: Title"></span>
+            </td>
+            <td>
+                <span data-bind="text: DisplayDate"></span>
+            </td>
+            <td>
+                <span data-bind="text: Genre"></span>
+            </td>
+            <td>
+                <span data-bind="text: Price"></span>
+            </td>
+            <td>
+                <span data-bind="text: Rating"></span>
+            </td>
+            <td>
+                <a data-bind="attr: {href: $parent.EditURL + '/' + ID()}">Edit Me</a> |
+                <a data-bind="attr: {href: $parent.DetailsURL + '/' + ID()}">Details</a> |
+                <a data-bind="attr: {href: $parent.DeleteURL + '/' + ID()}">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
